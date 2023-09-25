@@ -81,6 +81,7 @@ public class Application {
     public static String resultOfGuess(String answer, String guess) { // 스트라이크, 볼 개수 계산
         int strike = 0;
         int ball = 0;
+        String result = "";
 
         for (int i = 0; i < 3; i++) {
             int index = guess.indexOf(answer.charAt(i));
@@ -90,6 +91,16 @@ public class Application {
                 ball += 1;
             }
         }
-        return strike + "스트라이크 " + ball + "볼";
+
+        if (strike > 0 && ball > 0) {
+            result = strike + "스트라이크 " + ball + "볼";
+        } else if (strike > 0 && ball == 0) {
+            result = strike + "스트라이크";
+        } else if (strike == 0 && ball > 0) {
+            result = ball + "볼";
+        } else {
+            result = "낫싱";
+        }
+        return result;
     }
 }
