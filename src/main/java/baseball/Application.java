@@ -1,9 +1,8 @@
 package baseball;
 
 import java.util.Objects;
-
-import static camp.nextstep.edu.missionutils.Randoms.pickNumberInRange;
 import static camp.nextstep.edu.missionutils.Console.readLine;
+import static camp.nextstep.edu.missionutils.Randoms.pickNumberInRange;
 
 public class Application {
     public static void main(String[] args) {
@@ -16,6 +15,8 @@ public class Application {
         boolean oneToNine = areAllDigitsOneToNine(guess);
         boolean AllDistinct = areAllDigitsDistinct(guess);
         boolean isGuessValid = isGuessValid(threeDigits, oneToNine, AllDistinct);
+        System.out.println(answer);
+        System.out.println(guess);
 
         try {
             String hint = printHint(isGuessValid, answer, guess);
@@ -25,12 +26,26 @@ public class Application {
         }
     }
 
-
     public static String generateRandomNumber() { // 랜덤한 숫자 생성
         StringBuilder randomNumber = new StringBuilder();
-        randomNumber.append(pickNumberInRange(1, 9));
-        randomNumber.append(pickNumberInRange(1, 9));
-        randomNumber.append(pickNumberInRange(1, 9));
+        int n1 = pickNumberInRange(1, 9);
+        int n2;
+        int n3;
+        while(true) {
+            n2 = pickNumberInRange(1, 9);
+            if (n1 != n2) {
+                break;
+            }
+        }
+        while(true) {
+            n3 = pickNumberInRange(1, 9);
+            if (n3 != n1 && n3 != n2) {
+                break;
+            }
+        }
+        randomNumber.append(n1);
+        randomNumber.append(n2);
+        randomNumber.append(n3);
         String answer = randomNumber.toString();
         return answer;
     }
