@@ -1,28 +1,39 @@
 package baseball;
 
 import java.util.Objects;
+
 import static camp.nextstep.edu.missionutils.Console.readLine;
 import static camp.nextstep.edu.missionutils.Randoms.pickNumberInRange;
 
 public class Application {
     public static void main(String[] args) {
+        game();
+    }
+
+    public static void game() { // 게임 한 판
+        boolean threeStrike = false;
         String answer = generateRandomNumber();
         System.out.println("숫자 야구 게임을 시작합니다.");
-        System.out.print("숫자를 입력해주세요 : ");
-        String guess = readLine();
+        while (!threeStrike) {
+            try {
+                System.out.print("숫자를 입력해주세요 : ");
+                String guess = readLine();
 
-        boolean threeDigits = isGuessThreeDigits(guess);
-        boolean oneToNine = areAllDigitsOneToNine(guess);
-        boolean AllDistinct = areAllDigitsDistinct(guess);
-        boolean isGuessValid = isGuessValid(threeDigits, oneToNine, AllDistinct);
-        System.out.println(answer);
-        System.out.println(guess);
+                boolean threeDigits = isGuessThreeDigits(guess);
+                boolean oneToNine = areAllDigitsOneToNine(guess);
+                boolean AllDistinct = areAllDigitsDistinct(guess);
+                boolean isGuessValid = isGuessValid(threeDigits, oneToNine, AllDistinct);
 
-        try {
-            String hint = printHint(isGuessValid, answer, guess);
-            System.out.println(hint);
-        } catch (IllegalArgumentException e) {
-            System.out.println("잘못된 입력입니다.");
+                String hint = printHint(isGuessValid, answer, guess);
+                System.out.println(hint);
+                if (hint.equals("3스트라이크")) {
+                    threeStrike = true;
+                    endOfGame();
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("잘못된 입력입니다.");
+                System.exit(0);
+            }
         }
     }
 
@@ -31,13 +42,13 @@ public class Application {
         int n1 = pickNumberInRange(1, 9);
         int n2;
         int n3;
-        while(true) {
+        while (true) {
             n2 = pickNumberInRange(1, 9);
             if (n1 != n2) {
                 break;
             }
         }
-        while(true) {
+        while (true) {
             n3 = pickNumberInRange(1, 9);
             if (n3 != n1 && n3 != n2) {
                 break;
@@ -117,5 +128,17 @@ public class Application {
             result = "낫싱";
         }
         return result;
+    }
+
+    public static void endOfGame() { // 1을 입력하면 재시작, 2를 입력하면 종료
+        System.out.println("3개 숫자를 모두 맞히셨습니다! 게임 종료");
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+        String retryOrExit = readLine();
+        if (retryOrExit.equals("1")) {
+            game();
+        }
+        if (retryOrExit.equals("2")) {
+            System.exit(0);
+        }
     }
 }
